@@ -1,11 +1,15 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
 import { HttpService } from "@nestjs/axios";
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 import { catchError, map } from 'rxjs';
+import { Movie } from './interfaces/movies.interface';
+
 
 @Injectable()
 export class MoviesService {
 
-    constructor(private http: HttpService) {}
+    constructor(private http: HttpService, private movieModel: Model<Movie>) {}
 
     async updateDB() {
         return this.http
@@ -22,11 +26,11 @@ export class MoviesService {
         );
     }
 
-    findAll(): any {
-
+    async findAll(): Promise<Movie[]> {
+        return await this.movieModel.find();
     }
 
-    findOne(id: string): any {
-        
+    async findOne(id: string): Promise<Movie> {
+        return await this.movieModel.findOne({ _id: id })
     }
 }
