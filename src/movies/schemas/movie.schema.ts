@@ -6,4 +6,5 @@ export const MovieSchema = new mongoose.Schema({
     descricao: String,
     diretor: String,
     produtor: String,
+    ref: String,
 });

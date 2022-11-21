@@ -5,4 +5,5 @@ export interface Movie {
     descricao: string,
     diretor: string,
     produtor: string,
+    ref: string,
 }

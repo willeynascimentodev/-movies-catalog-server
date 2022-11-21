@@ -2,28 +2,48 @@ import { HttpService } from "@nestjs/axios";
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { catchError, map } from 'rxjs';
+import { catchError, lastValueFrom, map } from 'rxjs';
 import { Movie } from './interfaces/movies.interface';
 
 
 @Injectable()
 export class MoviesService {
 
-    constructor(private http: HttpService, private movieModel: Model<Movie>) {}
+    constructor(@InjectModel('Movie') private readonly movieModel: Model<Movie>, private http: HttpService) {}
 
-    async updateDB() {
-        return this.http
-        .get('https://ghibliapi.herokuapp.com/films/')
-        .pipe(
-            map((movie) => {
-              console.log(movie);
-            }),
-          )
-        .pipe(
-            catchError(() => {
-                throw new ForbiddenException('API not available');
-            }),
-        );
+    async updateDB(): Promise<Movie[]> {
+        
+    
+        const result = await lastValueFrom(this.http
+            .get('https://ghibliapi.herokuapp.com/films/')
+            .pipe(
+                map(resp => resp.data),
+            )
+            .pipe(
+                catchError(() => {
+                    throw new ForbiddenException('API not available');
+                }),
+            ));
+    
+            const registros = (await this.findAll()).length;
+            console.log(registros);
+    
+            result.map(async (item) => {
+    
+                const obj = {
+                    titulo: item.title,
+                    banner: item.image,
+                    descricao: item.description,
+                    diretor: item.director,
+                    produtor: item.producer,
+                    ref: item.id,
+                }
+    
+                const newItem = await this.movieModel.findOneAndUpdate({ ref: obj.ref }, obj, { new: true, upsert: true });
+            
+            });
+        return this.findAll();
+
     }
 
     async findAll(): Promise<Movie[]> {
