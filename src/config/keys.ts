@@ -1,3 +1,5 @@
 export default {
-    mongoUri: 'mongodb+srv://moviesuser:gkfCqZ5NYClre3Wh@moviesdb.icriobq.mongodb.net/?retryWrites=true&w=majority'
+    mongoUri: 'mongodb+srv://moviesuser:gkfCqZ5NYClre3Wh@moviesdb.icriobq.mongodb.net/?retryWrites=true&w=majority',
+    apiKey: "mapoj321khy"
 };
+

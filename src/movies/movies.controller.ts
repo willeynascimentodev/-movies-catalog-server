@@ -1,8 +1,10 @@
-import { Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { ApiKeyGuard } from './guards/key.guard';
 import { Movie } from './interfaces/movies.interface';
 import { MoviesService } from './movies.service';
 
 @Controller('movies')
+@UseGuards(ApiKeyGuard)
 export class MoviesController {
     constructor(private moviesService: MoviesService) {}
 
