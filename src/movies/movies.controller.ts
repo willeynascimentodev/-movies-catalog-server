@@ -7,8 +7,8 @@ export class MoviesController {
     constructor(private moviesService: MoviesService) {}
 
     @Get()
-    async findAll(@Query('skip') skip: number, @Query('limit') limit: number): Promise<Movie[]> {
-        return this.moviesService.findAll(skip, limit);
+    async findAll(@Query('titulo') titulo: string, @Query('skip') skip: number, @Query('limit') limit: number): Promise<{}> {
+        return this.moviesService.findAll(titulo, skip, limit);
     }
 
     @Get(':id')

@@ -11,7 +11,16 @@ export class MoviesService {
 
     constructor(@InjectModel('Movie') private readonly movieModel: Model<Movie>, private http: HttpService) {}
 
-    async updateDB(): Promise<Movie[]> {
+    async countAll() {
+        try {
+            const movies = await this.movieModel.find().count();
+            return movies;
+        } catch (error) {
+            throw new InternalServerErrorException('Erro no servidor'); 
+        }
+    }
+
+    async updateDB(): Promise<{}> {
         
         try {
             const result = await lastValueFrom(this.http
@@ -38,8 +47,13 @@ export class MoviesService {
         
                     const newItem = await this.movieModel.findOneAndUpdate({ ref: obj.ref }, obj, { new: true, upsert: true });
                 
-                });
-            return this.findAll();
+                }); 
+                
+                return {
+                    statusCode : 200,
+                    message : "Success"
+                }
+            
         } catch (error) {
             throw new InternalServerErrorException('Erro no servidor');
         }
@@ -47,14 +61,20 @@ export class MoviesService {
 
     }
 
-    async findAll(skip = 0, limit = null): Promise<Movie[]> {
+    async findAll(titulo = '', skip = 0, limit = null): Promise<{}> {
         try {
-            const movies = await this.movieModel.find().skip(skip).limit(limit);
-            return movies;
+            console.log(titulo);
+            const movies = await this.movieModel.find({titulo: { '$regex' : titulo, '$options' : 'i' } }).skip(skip).limit(limit);
+            const count = await this.movieModel.find({titulo: { '$regex' : titulo, '$options' : 'i' } }).count();
+            return {
+                total: count,
+                movies: movies
+            };
         } catch (error) {
-            throw new InternalServerErrorException('Erro no servidor'); 
+            throw new InternalServerErrorException(error); 
         }
     }
+
 
     async findOne(id: string): Promise<Movie> {
         try {
@@ -64,4 +84,5 @@ export class MoviesService {
             throw new NotFoundException('Filme não encontrado');    
         }
     }
+    
 }
