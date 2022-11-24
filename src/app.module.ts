@@ -4,10 +4,11 @@ import { AppService } from './app.service';
 import { HttpModule } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MoviesModule } from './movies/movies.modules';
-import config from './config/keys'
+import { ConfigModule } from '@nestjs/config';
 
+ConfigModule.forRoot()
 @Module({
-  imports: [HttpModule, MoviesModule, MongooseModule.forRoot(config.mongoUri)],
+  imports: [HttpModule, MoviesModule, MongooseModule.forRoot(process.env.MONGO_URL)],
   controllers: [AppController],
   providers: [AppService],
 })
