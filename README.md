@@ -14,8 +14,12 @@ $ npm install
 
 ## Configurando ambiente
 
-Opcionalmente você pode configurar as credencias do banco e api_key. Basta seguir criar um .env file seguindo o exemplo do .env.example
+Opcionalmente você pode configurar as credencias do banco e api_key. 
+Basta seguir criar um .env file seguindo o exemplo do .env.example
 
+OBS: As informações do banco estão sendo exibidas para fins de teste. Em um projeto real com dados reais de produção, estas informações não estariam disponíveis.
+
+git lo
 ```bash
 
 ```
