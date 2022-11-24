@@ -2,7 +2,7 @@
 
 Aplicativo de catálogo de filmes
 Acesse via UI: 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+(https://test-movies-client.herokuapp.com/) framework TypeScript starter repository.
 
 ## Instalação
 
@@ -18,11 +18,6 @@ Opcionalmente você pode configurar as credencias do banco e api_key.
 Basta seguir criar um .env file seguindo o exemplo do .env.example
 
 OBS: As informações do banco estão sendo exibidas para fins de teste. Em um projeto real com dados reais de produção, estas informações não estariam disponíveis.
-
-git lo
-```bash
-
-```
 
 ## Rodando o app
 
